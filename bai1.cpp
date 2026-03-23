@@ -21,12 +21,17 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    char welcome_buf[256];
+    int n = recv(client, welcome_buf, sizeof(welcome_buf) - 1, 0);
+    if (n > 0) {
+        welcome_buf[n] = 0;
+        printf("Server: %s\n", welcome_buf);
+    }
     char buf[256];
     printf("Noi dung: ");
     fgets(buf, sizeof(buf), stdin);
-    
     send(client, buf, strlen(buf), 0);
-
     close(client);
+    
     return 0;
 }
