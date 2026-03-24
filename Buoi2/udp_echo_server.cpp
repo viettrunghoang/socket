@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
         memset(buffer, 0, sizeof(buffer));
         
         int n = recvfrom(server, buffer, sizeof(buffer), 0, (struct sockaddr *)&cliaddr, &len);
-        
+        printf("Server da nhan\n");
         if (n > 0) {
             sendto(server, buffer, n, 0, (struct sockaddr *)&cliaddr, len);
         }
