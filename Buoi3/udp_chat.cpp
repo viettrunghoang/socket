@@ -24,12 +24,12 @@ int main(int argc, char *argv[]) {
     my_addr.sin_addr.s_addr = INADDR_ANY;
     my_addr.sin_port = htons(port_s);
 
-    bind(sockfd, (const struct sockaddr *)&my_addr, sizeof(my_addr))
+    bind(sockfd, (const struct sockaddr *)&my_addr, sizeof(my_addr));
 
     memset(&dest_addr, 0, sizeof(dest_addr));
     dest_addr.sin_family = AF_INET;
     dest_addr.sin_port = htons(port_d);
-    inet_pton(AF_INET, ip_d, &dest_addr.sin_addr) 
+    inet_pton(AF_INET, ip_d, &dest_addr.sin_addr);
 
     fd_set readfds;
     int max_fd = sockfd > STDIN_FILENO ? sockfd : STDIN_FILENO;
