@@ -107,7 +107,7 @@ int main() {
 
             printf("Client connected: fd %d\n", new_socket);
 
-            char *welcome_msg = "--- TELNET SERVER ---\nVui long dang nhap (cu phap: user pass)\nUsername Password: ";
+            char *welcome_msg = "\nVui long dang nhap\nUsername Password: ";
             send(new_socket, welcome_msg, strlen(welcome_msg), 0);
 
             for (int i = 0; i < MAX_CLIENTS; i++) {

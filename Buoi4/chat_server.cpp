@@ -36,7 +36,7 @@ int main() {
         clients[i].is_logged_in = 0;
     }
 
-    server_fd = socket(AF_INET, SOCK_STREAM, 0)
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
 
     int opt = 1;
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
@@ -49,12 +49,12 @@ int main() {
     address.sin_port = htons(PORT);
 
   
-    bind(server_fd, (struct sockaddr *)&address, sizeof(address))
+    bind(server_fd, (struct sockaddr *)&address, sizeof(address));
 
-    // if (listen(server_fd, 10) < 0) {
-    //     perror("Listen failed");
-    //     exit(EXIT_FAILURE);
-    // }
+    if (listen(server_fd, 10) < 0) {
+        perror("Listen failed");
+        exit(EXIT_FAILURE);
+    }
 
     printf("Server run at port:  %d...\n", PORT);
 
@@ -85,10 +85,9 @@ int main() {
             printf("New connection, socket fd is %d, ip is: %s, port: %d\n", 
                    new_socket, inet_ntoa(address.sin_addr), ntohs(address.sin_port));
 
-            char *welcome = "Vui long nhap cu phap\n ";
+            const char *welcome = "Vui long nhap cu phap\n ";
             send(new_socket, welcome, strlen(welcome), 0);
 
-            // Thêm socket mới vào mảng clients
             for (int i = 0; i < MAX_CLIENTS; i++) {
                 if (clients[i].fd == 0) {
                     clients[i].fd = new_socket;
@@ -106,7 +105,9 @@ int main() {
                 int valread = read(sd, buffer, BUFFER_SIZE - 1);
 
                 if (valread == 0) {
-                    getpeername(sd, (struct sockaddr*)&address, (socklen_t*)&sizeof(address));
+                    socklen_t addrlen = sizeof(address); 
+
+                    getpeername(sd, (struct sockaddr*)&address, &addrlen);
                     printf("Host disconnected, ip %s, port %d\n", inet_ntoa(address.sin_addr), ntohs(address.sin_port));
                     close(sd);
                     clients[i].fd = 0;
@@ -125,11 +126,11 @@ int main() {
                             strcpy(clients[i].name, temp_name);
                             clients[i].is_logged_in = 1;
                             
-                            char *success_msg = "Thanh cong.\n> ";
+                            const char *success_msg = "Thanh cong.\n> ";
                             send(sd, success_msg, strlen(success_msg), 0);
                             printf("Client logged in: ID=%s, Name=%s\n", clients[i].id, clients[i].name);
                         } else {
-                            char *error_msg = "Khong thanh cong\n> ";
+                            const char *error_msg = "Khong thanh cong\n> ";
                             send(sd, error_msg, strlen(error_msg), 0);
                         }
                     } 
@@ -148,7 +149,7 @@ int main() {
                             }
                         }
                         
-                        char *prompt = "> ";
+                        const char *prompt = "> ";
                         send(sd, prompt, strlen(prompt), 0);
                     }
                 }

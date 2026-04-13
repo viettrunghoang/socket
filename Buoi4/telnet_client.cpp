@@ -14,7 +14,7 @@ int main() {
     struct sockaddr_in serv_addr;
     char buffer[BUFFER_SIZE] = {0};
 
-    sock = socket(AF_INET, SOCK_STREAM, 0)
+    sock = socket(AF_INET, SOCK_STREAM, 0);
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
@@ -24,7 +24,7 @@ int main() {
         return -1;
     }
 
-    connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr))
+    connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
     fd_set readfds;
     int max_sd;
